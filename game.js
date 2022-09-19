@@ -45,6 +45,9 @@ function win(){
   for (let i = 0; i < boundaries.length; i++) {
     boundaries.item(i).removeEventListener("mouseover", fail);
   }
+
+  // remove game event listener
+  game.addEventListener("mouseleave", fail)
 }
 
 
