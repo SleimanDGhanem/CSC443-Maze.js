@@ -47,7 +47,7 @@ function win(){
   }
 
   // remove game event listener
-  game.addEventListener("mouseleave", fail)
+  game.removeEventListener("mouseleave", fail)
 }
 
 
