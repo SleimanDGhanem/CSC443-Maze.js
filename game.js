@@ -68,14 +68,7 @@ function win(){
 }
 
 let accounts = [
-  {
-    username:"sleiman",
-    password:"ghanem"
-  },
-  {
-    username:"Charbel",
-    password:"Daoud"
-  }
+  
 ]
 
 window.localStorage.setItem("accounts", JSON.stringify(accounts));  
