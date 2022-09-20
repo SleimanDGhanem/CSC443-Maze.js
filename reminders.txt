@@ -1,0 +1,1 @@
+You have several things still needed to do, it begins with finishing the localstorage, then creating a login form, then interacting with the login form to retrieve the data from the login form to append to the accounts localstorage, after that comes the scoring system, and then checking to test the login system  

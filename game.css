@@ -3,6 +3,19 @@ Game Lab CSS file
 You don't need to download or edit this file.
 */
 
+
+form{
+	width:16.5%;
+	margin:auto;
+}
+
+input{
+	margin-bottom: 10px	;
+	border: 1px solid grey;
+	border-radius: 3px;
+}
+
+
 h1, h2 {
 	text-align: center;
 }
@@ -58,6 +71,14 @@ div.youlose {
 	background-color: #ff8888;
 }
 
+button {
+	margin-left: 10px;
+}
+
+button + button{
+	margin-left: 25px;
+}
+
 /*
 Hack hack hack; these are CSS "sibling selectors" for selecting
 neighboring elements.  Necessary to avoid giving ids to the boundary divs
@@ -110,3 +131,4 @@ neighboring elements.  Necessary to avoid giving ids to the boundary divs
 	height: 150px;
 	width: 98px;
 } */
+

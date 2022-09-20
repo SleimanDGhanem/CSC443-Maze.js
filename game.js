@@ -1,10 +1,3 @@
-let accounts = [];
-if (window.localStorage.getItem("accounts") == null) {
-  window.localStorage.setItem("accounts", JSON.stringify(accounts));
-} else {
-  accounts = JSON.parse(window.localStorage.getItem("accounts"));
-}
-
 // get the start button
 const start = document.getElementById("start");
 
@@ -13,7 +6,6 @@ const game = document.getElementById("game");
 
 // retrieve the end button
 const end = document.getElementById("end");
-console.log(start);
 
 // retrieve all boundary elements
 const boundaries = document.getElementsByClassName("boundary");
@@ -21,12 +13,19 @@ const boundaries = document.getElementsByClassName("boundary");
 // retrieve status message
 const message = document.getElementById("status");
 
+// retrieve register message
+const registerbutton = document.getElementById("register");
+
+// retrieve register message
+const loginbutton = document.getElementById("login");
+
 // create event for start button
 start.addEventListener("click", function () {
   // reset status message
   message.style.color = "black";
   message.innerText = 'Begin by moving your mouse over the "S". ';
 
+  game.classList.remove("youlose");
   // reset color of boundaries
   for (let i = 0; i < boundaries.length; i++) {
     boundaries.item(i).style.backgroundColor = "#EEEEEE";
@@ -52,6 +51,7 @@ function fail() {
   for (let j = 0; j < boundaries.length; j++) {
     boundaries.item(j).style.backgroundColor = "red";
   }
+  game.classList.add("youlose");
 
   end.removeEventListener("mouseover", win);
 }
@@ -66,4 +66,27 @@ function win() {
 
   // remove game event listener
   game.removeEventListener("mouseleave", fail);
+}
+
+function register() {
+  let stuff = [
+    {
+      username: document.getElementById("username").value,
+      password: document.getElementById("password").value,
+    },
+  ];
+
+  let accounts = [];
+  if (
+    window.localStorage.getItem("accounts") == null &&
+    document.getElementById("username").value.length >= 6
+  ) {
+    accounts = [];
+    accounts = accounts.concat(stuff);
+    window.localStorage.setItem("accounts", JSON.stringify(accounts));
+  } else {
+    accounts = JSON.parse(window.localStorage.getItem("accounts"));
+    accounts = accounts.concat(stuff);
+    console.log(accounts);
+  }
 }
