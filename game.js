@@ -20,6 +20,8 @@ const registerbutton = document.getElementById("register");
 // retrieve register message
 const loginbutton = document.getElementById("login");
 
+// current user(will be used in login function)
+let user = "";
 // create event for start button
 start.addEventListener("click", function () {
   // reset status message
@@ -77,6 +79,7 @@ function register() {
     {
       username: document.getElementById("username").value,
       password: document.getElementById("password").value,
+      score: 0
     },
   ];
   
@@ -88,7 +91,6 @@ function register() {
   
   // if checkunique is false(meaning the username and password are the appropriate size, and the username is unique), it will be added to the local storage.
   if (checkUnique()) {
-    console.log("hello")
     accounts = accounts.concat(stuff);
     window.localStorage.setItem("accounts", JSON.stringify(accounts));
     console.log(checkUnique);
@@ -105,11 +107,33 @@ function checkUnique() {
 
   if (username.length >= 6 && password.length >= 6) {
     for (let i = 0; i < accounts.length; i++) {
-      console.log("yes");
       if (username == accounts[i].username) {
         return false;
       }
     }
   }
+
   return true;
+}
+
+function login(){
+
+  let username = document.getElementById("username").value;
+  let password = document.getElementById("password").value;
+  let accounts = JSON.parse(window.localStorage.getItem("accounts"));
+  let score = 0;
+  if (username.length >= 6 && password.length >= 6 && accounts !== null) {
+    for (let i = 0; i < accounts.length; i++) {
+      if (username == accounts[i].username && password == accounts[i].password) {
+        score = accounts[i].score;
+      }
+    }
+  }else{
+    alert("Invalid Username/Password");
+  }
+
+  
+
+  return true;
+}
 }
