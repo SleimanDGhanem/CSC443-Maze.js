@@ -11,8 +11,14 @@ console.log(start);
 // retrieve all boundary elements
 const boundaries = document.getElementsByClassName("boundary");
 
+// retrieve status message
+const message = document.getElementById("status");
+
 // create event for start button
 start.addEventListener("click", function () {
+
+  message.style.color = "black";
+  message.innerText = 'Begin by moving your mouse over the "S". ';
 
   // reset color of boundaries
   for (let i = 0; i < boundaries.length; i++) {
@@ -33,15 +39,22 @@ start.addEventListener("click", function () {
 
 
 function fail() {
+
+  message.style.color = "red";
+  message.innerText = "You Have Lost"
   for (let j = 0; j < boundaries.length; j++) {
     // change color of all boundaries if mouse hovers over all of them
     boundaries.item(j).style.backgroundColor = "red";
   }
    
   end.removeEventListener("mouseover", win);
+
+  
 }
 
 function win(){
+  message.style.color = "green";
+  message.innerText = "You Have won"
   for (let i = 0; i < boundaries.length; i++) {
     boundaries.item(i).removeEventListener("mouseover", fail);
   }
