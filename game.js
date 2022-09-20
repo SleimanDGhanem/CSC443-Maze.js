@@ -52,10 +52,27 @@ start.addEventListener("click", function () {
 
 registerButton.addEventListener("click", register);
 
+loginButton.addEventListener("click", login);
+
 function fail() {
   // write "you lose" status message
   message.style.color = "red";
   message.innerText = "You Have Lost";
+
+  // update score
+    score -= 10;
+    scoreText.innerText = score;
+  
+  // update score in local storage
+  
+  if(user != ""){
+    let accounts = window.localStorage.getItem("accounts");
+    for(let i = 0 ; i < accounts.length; i++){
+      if(user == accounts[i].username){
+        accounts[i].score = score;
+      }
+    }
+  }
 
   // change color of all boundaries if mouse hovers over all of them
   for (let j = 0; j < boundaries.length; j++) {
@@ -64,6 +81,7 @@ function fail() {
   game.classList.add("youlose");
 
   end.removeEventListener("mouseover", win);
+  
 }
 
 function win() {
@@ -77,7 +95,17 @@ function win() {
   // show on page
   scoreText.innerText = score;
 
-  scoreText
+
+  // update score in localstorage
+  if(user != ""){
+    let accounts = window.localStorage.getItem("accounts");
+    for(let i = 0 ; i < accounts.length; i++){
+      if(user == accounts[i].username){
+        accounts[i].score = score;
+      }
+    }
+  }
+  
   for (let i = 0; i < boundaries.length; i++) {
     boundaries.item(i).removeEventListener("mouseover", fail);
   }
