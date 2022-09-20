@@ -1,3 +1,5 @@
+// window.localStorage.removeItem("accounts");
+
 // get the start button
 const start = document.getElementById("start");
 
@@ -66,12 +68,14 @@ function fail() {
   // update score in local storage
   
   if(user != ""){
-    let accounts = window.localStorage.getItem("accounts");
+    let accounts = JSON.parse(window.localStorage.getItem("accounts"));
     for(let i = 0 ; i < accounts.length; i++){
       if(user == accounts[i].username){
         accounts[i].score = score;
       }
     }
+    window.localStorage.setItem("accounts", JSON.stringify(accounts));
+
   }
 
   // change color of all boundaries if mouse hovers over all of them
@@ -79,6 +83,13 @@ function fail() {
     boundaries.item(j).style.backgroundColor = "red";
   }
   game.classList.add("youlose");
+
+  for (let i = 0; i < boundaries.length; i++) {
+    boundaries.item(i).removeEventListener("mouseover", fail);
+  }
+
+  // remove game event listener
+  game.removeEventListener("mouseleave", fail)
 
   end.removeEventListener("mouseover", win);
   
@@ -98,12 +109,13 @@ function win() {
 
   // update score in localstorage
   if(user != ""){
-    let accounts = window.localStorage.getItem("accounts");
+    let accounts = JSON.parse(window.localStorage.getItem("accounts"));
     for(let i = 0 ; i < accounts.length; i++){
       if(user == accounts[i].username){
         accounts[i].score = score;
       }
     }
+    window.localStorage.setItem("accounts", JSON.stringify(accounts));
   }
   
   for (let i = 0; i < boundaries.length; i++) {
@@ -120,6 +132,7 @@ function win() {
 
 // function to create registration
 function register() {
+  console.log(score);
   let stuff = [
     {
       username: document.getElementById("username").value,
@@ -166,8 +179,10 @@ function login(){
   let username = document.getElementById("username").value;
   let password = document.getElementById("password").value;
   let accounts = JSON.parse(window.localStorage.getItem("accounts"));
+  console.log(accounts);
   if (username.length >= 6 && password.length >= 6 && accounts !== null) {
     for (let i = 0; i < accounts.length; i++) {
+      console.log("hello")
       if (username == accounts[i].username && password == accounts[i].password) {
         score = accounts[i].score;
         user = username;
