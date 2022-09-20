@@ -13,12 +13,17 @@ const boundaries = document.getElementsByClassName("boundary");
 // retrieve status message
 const message = document.getElementById("status");
 
-console.log("hello");
-// retrieve register message
-const registerbutton = document.getElementById("register");
+let scoreText = document.getElementById("score");
 
 // retrieve register message
-const loginbutton = document.getElementById("login");
+let registerButton = document.getElementById("register");
+
+// retrieve register message
+let loginButton = document.getElementById("login");
+
+// score to be used on the page
+let score = 0;
+
 
 // current user(will be used in login function)
 let user = "";
@@ -45,7 +50,7 @@ start.addEventListener("click", function () {
   end.addEventListener("mouseover", win);
 });
 
-registerbutton.addEventListener("click", register);
+registerButton.addEventListener("click", register);
 
 function fail() {
   // write "you lose" status message
@@ -65,12 +70,24 @@ function win() {
   // write "you win" status message
   message.style.color = "green";
   message.innerText = "You have won";
+
+  // increase score by 5
+  score += 5;
+
+  // show on page
+  scoreText.innerText = score;
+
+  scoreText
   for (let i = 0; i < boundaries.length; i++) {
     boundaries.item(i).removeEventListener("mouseover", fail);
   }
 
   // remove game event listener
   game.removeEventListener("mouseleave", fail);
+
+  // remove end event listener
+
+  end.removeEventListener("mouseover", win);
 }
 
 // function to create registration
@@ -79,7 +96,7 @@ function register() {
     {
       username: document.getElementById("username").value,
       password: document.getElementById("password").value,
-      score: 0
+      score: score
     },
   ];
   
@@ -90,11 +107,10 @@ function register() {
   }
   
   // if checkunique is false(meaning the username and password are the appropriate size, and the username is unique), it will be added to the local storage.
-  if (checkUnique()) {
+  if (checkUnique() == true) {
     accounts = accounts.concat(stuff);
     window.localStorage.setItem("accounts", JSON.stringify(accounts));
-    console.log(checkUnique);
-    console.log(accounts);
+    login();
   }
 }
 
@@ -102,10 +118,11 @@ function checkUnique() {
   let username = document.getElementById("username").value;
   let password = document.getElementById("password").value;
   let accounts = JSON.parse(window.localStorage.getItem("accounts"));
-  if (accounts == null) 
+  if (accounts == null) {
   return true;
+  }
 
-  if (username.length >= 6 && password.length >= 6) {
+  if (username.length >= 4 && password.length >= 4) {
     for (let i = 0; i < accounts.length; i++) {
       if (username == accounts[i].username) {
         return false;
@@ -121,19 +138,23 @@ function login(){
   let username = document.getElementById("username").value;
   let password = document.getElementById("password").value;
   let accounts = JSON.parse(window.localStorage.getItem("accounts"));
-  let score = 0;
   if (username.length >= 6 && password.length >= 6 && accounts !== null) {
     for (let i = 0; i < accounts.length; i++) {
       if (username == accounts[i].username && password == accounts[i].password) {
         score = accounts[i].score;
+        user = username;
+        document.getElementById("username").style.display = "none";
+        document.getElementById("password").style.display = "none";
+        registerButton.style.display = "none";
+        loginButton.style.display = "none";
+        scoreText.innerText = score;
+        scoreText.style.display = "block";
       }
     }
   }else{
     alert("Invalid Username/Password");
   }
-
   
 
   return true;
-}
 }
