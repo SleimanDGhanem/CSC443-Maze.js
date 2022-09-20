@@ -1,3 +1,10 @@
+let accounts = [];
+if (window.localStorage.getItem("accounts") == null) {
+  window.localStorage.setItem("accounts", JSON.stringify(accounts));
+} else {
+  accounts = JSON.parse(window.localStorage.getItem("accounts"));
+}
+
 // get the start button
 const start = document.getElementById("start");
 
@@ -16,7 +23,6 @@ const message = document.getElementById("status");
 
 // create event for start button
 start.addEventListener("click", function () {
-
   // reset status message
   message.style.color = "black";
   message.innerText = 'Begin by moving your mouse over the "S". ';
@@ -27,7 +33,7 @@ start.addEventListener("click", function () {
   }
 
   // add event listener to check if the mouse leaves the game area
-  game.addEventListener("mouseleave", fail)
+  game.addEventListener("mouseleave", fail);
 
   // add event listener to each boundary to detect if mouse hovers over them
   for (let i = 0; i < boundaries.length; i++) {
@@ -37,42 +43,27 @@ start.addEventListener("click", function () {
   end.addEventListener("mouseover", win);
 });
 
-
-
 function fail() {
   // write "you lose" status message
   message.style.color = "red";
-  message.innerText = "You Have Lost"
-
+  message.innerText = "You Have Lost";
 
   // change color of all boundaries if mouse hovers over all of them
   for (let j = 0; j < boundaries.length; j++) {
     boundaries.item(j).style.backgroundColor = "red";
   }
-   
-  end.removeEventListener("mouseover", win);
 
-  
+  end.removeEventListener("mouseover", win);
 }
 
-function win(){
+function win() {
   // write "you win" status message
   message.style.color = "green";
-  message.innerText = "You have won"
+  message.innerText = "You have won";
   for (let i = 0; i < boundaries.length; i++) {
     boundaries.item(i).removeEventListener("mouseover", fail);
   }
 
   // remove game event listener
-  game.removeEventListener("mouseleave", fail)
+  game.removeEventListener("mouseleave", fail);
 }
-
-let accounts = [
-  
-]
-
-window.localStorage.setItem("accounts", JSON.stringify(accounts));  
-
-
-
-
