@@ -13,6 +13,7 @@ const boundaries = document.getElementsByClassName("boundary");
 // retrieve status message
 const message = document.getElementById("status");
 
+console.log("hello");
 // retrieve register message
 const registerbutton = document.getElementById("register");
 
@@ -42,6 +43,8 @@ start.addEventListener("click", function () {
   end.addEventListener("mouseover", win);
 });
 
+registerbutton.addEventListener("click", register);
+
 function fail() {
   // write "you lose" status message
   message.style.color = "red";
@@ -68,6 +71,7 @@ function win() {
   game.removeEventListener("mouseleave", fail);
 }
 
+// function to create registration
 function register() {
   let stuff = [
     {
@@ -75,18 +79,37 @@ function register() {
       password: document.getElementById("password").value,
     },
   ];
-
+  
   let accounts = [];
-  if (
-    window.localStorage.getItem("accounts") == null &&
-    document.getElementById("username").value.length >= 6
-  ) {
-    accounts = [];
+  
+  if (window.localStorage.getItem("accounts") !== null) {
+    accounts = JSON.parse(window.localStorage.getItem("accounts"));
+  }
+  
+  // if checkunique is false(meaning the username and password are the appropriate size, and the username is unique), it will be added to the local storage.
+  if (checkUnique()) {
+    console.log("hello")
     accounts = accounts.concat(stuff);
     window.localStorage.setItem("accounts", JSON.stringify(accounts));
-  } else {
-    accounts = JSON.parse(window.localStorage.getItem("accounts"));
-    accounts = accounts.concat(stuff);
+    console.log(checkUnique);
     console.log(accounts);
   }
+}
+
+function checkUnique() {
+  let username = document.getElementById("username").value;
+  let password = document.getElementById("password").value;
+  let accounts = JSON.parse(window.localStorage.getItem("accounts"));
+  if (accounts == null) 
+  return true;
+
+  if (username.length >= 6 && password.length >= 6) {
+    for (let i = 0; i < accounts.length; i++) {
+      console.log("yes");
+      if (username == accounts[i].username) {
+        return false;
+      }
+    }
+  }
+  return true;
 }
